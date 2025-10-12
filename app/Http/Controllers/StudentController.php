@@ -14,11 +14,11 @@ class StudentController extends Controller
         return view('dashboard', compact('students'));
      }
 
-public function store(Request $request)
-{
+    public function store(Request $request)
+    {
     $validated = $request->validate([
         'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:students.email',
+        'email' => 'required|email|unique:students,email',
         'phone' => 'required|string|max:20',
         'address' => 'required|string|max:255',
     ]);
