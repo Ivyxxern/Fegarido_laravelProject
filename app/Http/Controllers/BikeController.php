@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand; 
 use Illuminate\Http\Request;
 
-class BrandController extends Controller
+class BikeController extends Controller
 {
     public function index()
     {
@@ -16,7 +17,7 @@ class BrandController extends Controller
     public function store(Request $request)
     {
         $request->validate(['brand_name' => 'required']);
-        Brand::create($request->all());
+        Brand::create($request->except('xall'));
         return back()->with('success', 'Brand added');
     }
 
