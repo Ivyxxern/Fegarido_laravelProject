@@ -8,6 +8,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\BikeController;
 
+
 Route::get('/', function () {
     return view('welcome');
 })->name('home');

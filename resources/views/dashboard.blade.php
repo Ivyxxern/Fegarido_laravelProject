@@ -13,8 +13,8 @@
             <div class="relative overflow-hidden rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-700 dark:bg-neutral-800">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-neutral-600 dark:text-neutral-400">Total Students</p>
-                        <h3 class="mt-2 text-3xl font-bold text-neutral-900 dark:text-neutral-100">{{$students->count() }}</h3>
+                        <p class="text-sm font-medium text-neutral-600 dark:text-neutral-400">Total Rented Bikes</p>
+                        <h3 class="mt-2 text-3xl font-bold text-neutral-900 dark:text-neutral-100">15</h3>
                     </div>
                     <div class="rounded-full bg-blue-100 p-3 dark:bg-blue-900/30">
                         <svg class="h-6 w-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -27,8 +27,8 @@
             <div class="relative overflow-hidden rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-700 dark:bg-neutral-800">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-neutral-600 dark:text-neutral-400">Active Courses</p>
-                        <h3 class="mt-2 text-3xl font-bold text-neutral-900 dark:text-neutral-100">12</h3>
+                        <p class="text-sm font-medium text-neutral-600 dark:text-neutral-400">Available Bikes</p>
+                        <h3 class="mt-2 text-3xl font-bold text-neutral-900 dark:text-neutral-100">30</h3>
                     </div>
                     <div class="rounded-full bg-green-100 p-3 dark:bg-green-900/30">
                         <svg class="h-6 w-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -41,8 +41,8 @@
             <div class="relative overflow-hidden rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-700 dark:bg-neutral-800">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-neutral-600 dark:text-neutral-400">Enrollment Rate</p>
-                        <h3 class="mt-2 text-3xl font-bold text-neutral-900 dark:text-neutral-100">94%</h3>
+                        <p class="text-sm font-medium text-neutral-600 dark:text-neutral-400">Customer Satisfaction</p>
+                        <h3 class="mt-2 text-3xl font-bold text-neutral-900 dark:text-neutral-100">92%</h3>
                     </div>
                     <div class="rounded-full bg-purple-100 p-3 dark:bg-purple-900/30">
                         <svg class="h-6 w-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
