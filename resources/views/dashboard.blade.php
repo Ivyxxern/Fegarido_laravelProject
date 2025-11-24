@@ -58,38 +58,38 @@
             <div class="flex h-full flex-col p-6">
                 <!-- Add New Student Form -->
                 <div class="mb-6 rounded-lg border border-neutral-200 bg-neutral-50 p-6 dark:border-neutral-700 dark:bg-neutral-900/50">
-                    <h2 class="mb-4 text-lg font-semibold text-neutral-900 dark:text-neutral-100">Add New Student</h2>
+                    <h2 class="mb-4 text-lg font-semibold text-neutral-900 dark:text-neutral-100">Add New Customer</h2>
 
                     <form action="{{ route('students.store') }}" method="POST" class="grid gap-4 md:grid-cols-2">
                         @csrf
 
                         <div>
                             <label class="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">Name</label>
-                            <input type="text" name="name" value="{{ old('name') }}" placeholder="Enter student name" required class="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100">
+                            <input type="text" name="name" value="{{ old('name') }}" placeholder="Enter customer name" required class="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100">
                             @error('name')
                                 <p class="mt-1 text-xs text-red-600 dark:text-red-400"> {{ $message }}</p>
                             @enderror    
                         </div>
 
                         <div>
-                            <label class="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">Email</label>
-                            <input type="email" name="email" value="{{ old('email') }}" placeholder="Enter email address" required class="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100">
+                            <label class="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">Location</label>
+                            <input type="email" name="email" value="{{ old('email') }}" placeholder="Enter Location" required class="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100">
                              @error('email')
                                 <p class="mt-1 text-xs text-red-600 dark:text-red-400"> {{ $message }}</p>
                              @enderror   
                         </div>
 
                         <div>
-                            <label class="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">Phone</label>
-                            <input type="tel" name="phone" value="{{ old('phone') }}" placeholder="Enter phone number" required class="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100">
+                            <label class="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">Select Bike</label>
+                            <input type="tel" name="phone" value="{{ old('phone') }}" placeholder="Select a Bike" required class="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100">
                              @error('phone')
                                 <p class="mt-1 text-xs text-red-600 dark:text-red-400"> {{ $message }}</p>
                              @enderror   
                         </div>
 
                         <div>
-                            <label class="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">Address</label>
-                            <input type="text"  name="address" value="{{ old('address') }}" placeholder="Enter address" required class="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100">
+                            <label class="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">Phone</label>
+                            <input type="text"  name="address" value="{{ old('address') }}" placeholder="Enter Phone Number" required class="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100">
                              @error('address')
                                 <p class="mt-1 text-xs text-red-600 dark:text-red-400"> {{ $message }}</p>
                              @enderror  
@@ -97,7 +97,7 @@
 
                         <div class="md:col-span-2">
                             <button type="submit" class="rounded-lg bg-blue-600 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
-                                Add Student
+                                Add Customer
                             </button>
                         </div>
                     </form>
@@ -105,16 +105,16 @@
 
                 <!-- Student List Table -->
                 <div class="flex-1 overflow-auto">
-                    <h2 class="mb-4 text-lg font-semibold text-neutral-900 dark:text-neutral-100">Student List</h2>
+                    <h2 class="mb-4 text-lg font-semibold text-neutral-900 dark:text-neutral-100">Customer List</h2>
                     <div class="overflow-x-auto">
                         <table class="w-full min-w-full">
                             <thead>
                                 <tr class="border-b border-neutral-200 bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900/50">
                                     <th class="px-4 py-3 text-left text-sm font-semibold text-neutral-700 dark:text-neutral-300">#</th>
                                     <th class="px-4 py-3 text-left text-sm font-semibold text-neutral-700 dark:text-neutral-300">Name</th>
-                                    <th class="px-4 py-3 text-left text-sm font-semibold text-neutral-700 dark:text-neutral-300">Email</th>
+                                    <th class="px-4 py-3 text-left text-sm font-semibold text-neutral-700 dark:text-neutral-300">Location</th>
+                                    <th class="px-4 py-3 text-left text-sm font-semibold text-neutral-700 dark:text-neutral-300">Select Bike</th>
                                     <th class="px-4 py-3 text-left text-sm font-semibold text-neutral-700 dark:text-neutral-300">Phone</th>
-                                    <th class="px-4 py-3 text-left text-sm font-semibold text-neutral-700 dark:text-neutral-300">Address</th>
                                     <th class="px-4 py-3 text-left text-sm font-semibold text-neutral-700 dark:text-neutral-300">Actions</th>
                                 </tr>
                             </thead>
@@ -122,10 +122,10 @@
                                 @forelse ($students as $student)
                                 <tr class="transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-800/50">
                                     <td class="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">{{ $loop->iteration }}</td>
-                                    <td class="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100">{{ $student->name }}</td>
-                                    <td class="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">{{ $student->email }}</td>
-                                    <td class="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">{{ $student->phone }}</td>
-                                    <td class="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">{{ $student->address }}</td>
+                                    <td class="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100">{{ $customer->name }}</td>
+                                    <td class="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">{{ $customer->location }}</td>
+                                    <td class="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">{{ $customer->select_bike }}</td>
+                                    <td class="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">{{ $customer->phone }}</td>
                                     <td class="px-4 py-3 text-sm">
                                         <button class="text-blue-600 transition-colors hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">Edit</button>
                                         <span class="mx-1 text-neutral-400">|</span>
@@ -139,7 +139,7 @@
                             @empty
                                 </tr>
                                     <td colspan="6" class="px-4 py-8 text-center text-sm text-neutral-500 dark:text-neutral-400"> 
-                                        No students found. Add your first student above!
+                                        No customer found. Add your first customer above!
                                     </td>
                                 </tr>
                             @endforelse

@@ -22,13 +22,7 @@
                     {{ __('Dashboard') }}
                 </flux:navlist.item>
 
-                <flux:navlist.item
-                    :href="route('bikes.index')"
-                    :current="request()->routeIs('bikes.index')"
-                    wire:navigate>
-                    {{ __('Bikes') }}
-                </flux:navlist.item>
-
+        
                 <flux:navlist.item icon="tag"
                     :href="route('brands.index')"
                     :current="request()->routeIs('brands.index')"
