@@ -89,7 +89,7 @@
 
                         <div>
                             <label class="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">Phone</label>
-                            <input type="text"  name="address" value="{{ old('address') }}" placeholder="Enter Phone Number" required class="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100">
+                            <input type="text"  name="address" value="{{ old('address') }}" placeholder="Enter Phone" required class="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100">
                              @error('address')
                                 <p class="mt-1 text-xs text-red-600 dark:text-red-400"> {{ $message }}</p>
                              @enderror  
