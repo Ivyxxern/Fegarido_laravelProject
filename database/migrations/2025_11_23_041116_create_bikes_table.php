@@ -13,11 +13,11 @@ return new class extends Migration
 {
     Schema::create('bikes', function (Blueprint $table) {
         $table->id();
-        $table->string('bike_name');
-        $table->string('status')->default('Available');
-        $table->foreignId('brand_id')->nullable()->constrained('brands')->nullOnDelete();
+        $table->foreignId('brand_id')->constrained()->cascadeOnDelete();
+        $table->string('model_name');
         $table->timestamps();
-    });
+});
+
 }
 
 

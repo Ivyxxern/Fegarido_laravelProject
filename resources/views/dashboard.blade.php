@@ -53,54 +53,82 @@
             </div>
         </div>
 
-        <!-- Student Management Section -->
+        <!-- Customer Management Section -->
         <div class="relative h-full flex-1 overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-neutral-800">
             <div class="flex h-full flex-col p-6">
-                <!-- Add New Student Form -->
+                <!-- Add New Customer Form -->
+
+                @if (session('success'))
+                    <div class="mb-4 rounded-lg bg-green-600/20 border border-green-600 text-green-700 dark:text-green-300 p-3">
+                                 {{ session('success') }}
+                    </div>
+                    @endif
+
+                @if (session('error'))
+                    <div class="mb-4 rounded-lg bg-red-600/20 border border-red-600 text-red-700 dark:text-red-300 p-3">
+                        {{ session('error') }}
+                    </div>
+                @endif
                 <div class="mb-6 rounded-lg border border-neutral-200 bg-neutral-50 p-6 dark:border-neutral-700 dark:bg-neutral-900/50">
                     <h2 class="mb-4 text-lg font-semibold text-neutral-900 dark:text-neutral-100">Add New Customer</h2>
 
                     <form action="{{ route('students.store') }}" method="POST" class="grid gap-4 md:grid-cols-2">
-                        @csrf
+    @csrf
 
-                        <div>
-                            <label class="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">Name</label>
-                            <input type="text" name="name" value="{{ old('name') }}" placeholder="Enter customer name" required class="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100">
-                            @error('name')
-                                <p class="mt-1 text-xs text-red-600 dark:text-red-400"> {{ $message }}</p>
-                            @enderror    
-                        </div>
+    <div>
+        <label class="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">Name</label>
+        <input type="text" name="name" value="{{ old('name') }}" placeholder="Enter customer name" required
+            class="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100">
+        @error('name')
+            <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ $message }}</p>
+        @enderror
+    </div>
 
-                        <div>
-                            <label class="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">Location</label>
-                            <input type="email" name="email" value="{{ old('email') }}" placeholder="Enter Location" required class="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100">
-                             @error('email')
-                                <p class="mt-1 text-xs text-red-600 dark:text-red-400"> {{ $message }}</p>
-                             @enderror   
-                        </div>
+    <div>
+        <label class="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">Location</label>
+        <input type="text" name="location" value="{{ old('location') }}" placeholder="Enter Location" required
+            class="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100">
+        @error('location')
+            <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ $message }}</p>
+        @enderror
+    </div>
 
-                        <div>
-                            <label class="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">Select Bike</label>
-                            <input type="tel" name="phone" value="{{ old('phone') }}" placeholder="Select a Bike" required class="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100">
-                             @error('phone')
-                                <p class="mt-1 text-xs text-red-600 dark:text-red-400"> {{ $message }}</p>
-                             @enderror   
-                        </div>
+    <div>
+        <label class="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">Select Bike</label>
+        <select name="select_bike" required
+            class="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm 
+            focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 
+            dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100">
+            <option disabled selected>Select a Bike</option>
+            <option value="Bianchi">Bianchi</option>
+            <option value="Cannondale">Cannondale</option>
+            <option value="Trek">Trek</option>
+            <option value="Trinx">Trinx</option>
+            <option value="Scott">Scott</option>
+            <option value="Specialized">Specialized</option>
+        </select>
+        @error('select_bike')
+            <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ $message }}</p>
+        @enderror
+    </div>
 
-                        <div>
-                            <label class="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">Phone</label>
-                            <input type="text"  name="address" value="{{ old('address') }}" placeholder="Enter Phone" required class="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100">
-                             @error('address')
-                                <p class="mt-1 text-xs text-red-600 dark:text-red-400"> {{ $message }}</p>
-                             @enderror  
-                        </div>
+    <div>
+        <label class="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">Phone</label>
+        <input type="text" name="phone" value="{{ old('phone') }}" placeholder="Enter Phone" required
+            class="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-100">
+        @error('phone')
+            <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ $message }}</p>
+        @enderror
+    </div>
 
-                        <div class="md:col-span-2">
-                            <button type="submit" class="rounded-lg bg-blue-600 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
-                                Add Customer
-                            </button>
-                        </div>
-                    </form>
+    <div class="md:col-span-2">
+        <button type="submit"
+            class="rounded-lg bg-blue-600 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
+            Add Customer
+        </button>
+    </div>
+</form>
+
                 </div>
 
                 <!-- Student List Table -->
@@ -118,31 +146,35 @@
                                     <th class="px-4 py-3 text-left text-sm font-semibold text-neutral-700 dark:text-neutral-300">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-neutral-200 dark:divide-neutral-700">
-                                @forelse ($students as $student)
-                                <tr class="transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-800/50">
-                                    <td class="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">{{ $loop->iteration }}</td>
-                                    <td class="px-4 py-3 text-sm text-neutral-900 dark:text-neutral-100">{{ $customer->name }}</td>
-                                    <td class="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">{{ $customer->location }}</td>
-                                    <td class="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">{{ $customer->select_bike }}</td>
-                                    <td class="px-4 py-3 text-sm text-neutral-600 dark:text-neutral-400">{{ $customer->phone }}</td>
-                                    <td class="px-4 py-3 text-sm">
-                                        <button class="text-blue-600 transition-colors hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">Edit</button>
-                                        <span class="mx-1 text-neutral-400">|</span>
-                                        <form method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this student')">
-                                            @csrf
-                                            @method('DELETE')
-                                        <button class="text-red-600 transition-colors hover:text-red-700 dark:text-red-400 dark:hover:text-red-300">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @empty
-                                </tr>
-                                    <td colspan="6" class="px-4 py-8 text-center text-sm text-neutral-500 dark:text-neutral-400"> 
-                                        No customer found. Add your first customer above!
-                                    </td>
-                                </tr>
-                            @endforelse
+                                        <tbody class="divide-y divide-neutral-200 dark:divide-neutral-700">
+                                        @forelse ($students as $student)
+                                            <tr class="transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-800/50">
+                                                <td class="px-4 py-3 text-sm">{{ $loop->iteration }}</td>
+                                                <td class="px-4 py-3 text-sm">{{ $student->name }}</td>
+                                                <td class="px-4 py-3 text-sm">{{ $student->location }}</td>
+                                                <td class="px-4 py-3 text-sm">{{ $student->select_bike }}</td>
+                                                <td class="px-4 py-3 text-sm">{{ $student->phone }}</td>
+
+                                        <td class="px-4 py-3 text-sm">
+                                            <button class="text-blue-600 hover:text-blue-700">Edit</button>
+                                            <span class="mx-1 text-neutral-400">|</span>
+
+                                            <form method="POST" action="{{ route('students.destroy', $student->id) }}" class="inline"
+                                                onsubmit="return confirm('Are you sure you want to delete this student?')">
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <button class="text-red-600 hover:text-red-700">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="px-4 py-8 text-center text-sm">
+                                            No customers found. Add your first customer above!
+                                        </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

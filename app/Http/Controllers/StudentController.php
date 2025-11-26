@@ -12,22 +12,46 @@ class StudentController extends Controller
         $students = Student::latest()->get();
 
         return view('dashboard', compact('students'));
-     }
+    }
 
     public function store(Request $request)
     {
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:students,email',
-        'phone' => 'required|string|max:20',
-        'address' => 'required|string|max:255',
-    ]);
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'select_bike' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+        ]);
 
-    Student::create($validated);
+        Student::create($validated);
 
-    return redirect()->back()->with('success', 'Student added successfully.');
-    }    
+        return redirect()
+            ->back()
+            ->with('success', 'Successfully added new customer!');
+    }
 
+    public function update(Request $request, Student $student)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'select_bike' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+        ]);
+
+        $student->update($validated);
+
+        return redirect()
+            ->back()
+            ->with('success', 'Customer updated successfully!');
+    }
+
+    public function destroy(Student $student)
+    {
+        $student->delete();
+
+        return redirect()
+            ->back()
+            ->with('success', 'Customer deleted successfully!');
+    }
 }
-
-
