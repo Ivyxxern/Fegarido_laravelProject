@@ -8,11 +8,10 @@ use Illuminate\Http\Request;
 class BrandController extends Controller
 {
     public function index()
-    {
-        return view('brands.index', [
-            'brands' => Brand::withCount('bikes')->get()
-        ]);
-    }
+{
+    $brands = Brand::withCount('bikes')->get(); // Count of bikes for each brand
+    return view('brands.index', compact('brands'));
+}
 
     public function store(Request $request)
     {
