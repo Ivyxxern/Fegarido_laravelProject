@@ -8,22 +8,41 @@ use Illuminate\Http\Request;
 class BrandController extends Controller
 {
     public function index()
-{
-    $brands = Brand::withCount('bikes')->get(); // Count of bikes for each brand
-    return view('brands.index', compact('brands'));
-}
+    {
+        $brands = Brand::withCount('bikes')->get();
+          $brands->each(function($brand) {
+            $brand->bike_count = 5;
+        });
+        return view('brands.index', compact('brands'));
+
+        $brands->each(function($brand) {
+            $brand->bike_count = 5;
+        });
+    }
 
     public function store(Request $request)
-    {
-        $request->validate(['brand_name' => 'required']);
-        Brand::create($request->all());
+    {   
+        $request->validate([
+            'brand_name' => 'required'
+        ]);
+
+        Brand::create([
+            'brand_name' => $request->brand_name
+        ]);
+
         return back()->with('success', 'Brand added');
     }
 
     public function update(Request $request, Brand $brand)
     {
-        $request->validate(['brand_name' => 'required']);
-        $brand->update(['brand_name' => $request->brand_name]);
+        $request->validate([
+            'brand_name' => 'required'
+        ]);
+
+        $brand->update([
+            'brand_name' => $request->brand_name
+        ]);
+
         return back()->with('success', 'Brand updated successfully.');
     }
 
