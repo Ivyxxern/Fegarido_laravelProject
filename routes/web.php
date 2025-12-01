@@ -5,13 +5,15 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\BikeController;
 use Illuminate\Support\Facades\Route;
 
+// Home page
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+// Auth-protected routes
 Route::middleware('auth')->group(function () {
 
-    // Dashboard
+    // --- Dashboard ---
     Route::get('/dashboard', [StudentController::class, 'index'])->name('dashboard');
 
     // --- Students (Customers) ---
@@ -26,12 +28,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/bikes/{bike}', [BikeController::class, 'destroy'])->name('bikes.destroy');
 
     // --- Brands ---
-    // Load bike count automatically for brand pages
     Route::get('/brands', [BrandController::class, 'index'])->name('brands.index');
     Route::post('/brands', [BrandController::class, 'store'])->name('brands.store');
     Route::put('/brands/{brand}', [BrandController::class, 'update'])->name('brands.update');
     Route::delete('/brands/{brand}', [BrandController::class, 'destroy'])->name('brands.destroy');
 
+    // --- TEMP: Seed existing brands with 5 bikes (REMOVE AFTER USE) ---
+    Route::get('/seed-bikes', [BrandController::class, 'seedBikes']);
 });
 
 require __DIR__.'/auth.php';

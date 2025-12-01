@@ -10,7 +10,9 @@ return new class extends Migration
     {
         Schema::create('bikes', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->foreignId('brand_id')->constrained()->onDelete('cascade');
+            $table->string('bike_name'); // this will match your BrandController
+            $table->boolean('is_rented')->default(false);
             $table->timestamps();
         });
     }
@@ -20,4 +22,5 @@ return new class extends Migration
         Schema::dropIfExists('bikes');
     }
 };
+
 

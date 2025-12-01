@@ -10,22 +10,22 @@ class StudentController extends Controller
 {
     public function index()
     {
-        // Load all students (customers)
+        // Load all students
         $students = Student::all();
 
-        // Load all brands WITH bike count (bikes_count)
+        // Load all brands WITH bikes count
         $brands = Brand::withCount('bikes')->get();
 
-        // Count rented bikes (customers = rented bikes)
-        $totalRented = Student::count();
+        // Total rented bikes = number of students
+        $totalRented = $students->count();
 
-        // SAFE: sum bikes_count from the loaded collection (not database column)
+        // Total bikes = sum of bikes_count from brands
         $totalBikes = $brands->sum('bikes_count');
 
         // Available bikes = total bikes - rented bikes
-        $availableBikes = $totalBikes - $totalRented;
+        $availableBikes = max($totalBikes - $totalRented, 0);
 
-        // Static placeholder for now
+        // Customer satisfaction placeholder
         $customerSatisfaction = 100;
 
         return view('dashboard', compact(

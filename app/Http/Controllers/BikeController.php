@@ -2,36 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Brand; 
+use App\Models\Bike;
+use App\Models\Brand;
 use Illuminate\Http\Request;
 
 class BikeController extends Controller
 {
     public function index()
     {
-        return view('brands.index', [
-            'brands' => Brand::withCount('bikes')->get()
-        ]);
+        $bikes = Bike::with('brand')->get();
+        $brands = Brand::all();
+        return view('bikes.index', compact('bikes', 'brands'));
     }
 
     public function store(Request $request)
     {
-        $request->validate(['brand_name' => 'required']);
-        Brand::create($request->except('xall'));
-        return back()->with('success', 'Brand added');
+        $request->validate([
+            'brand_id' => 'required|exists:brands,id',
+            'bike_name' => 'required|string|max:255'
+        ]);
+
+        Bike::create($request->only('brand_id', 'bike_name'));
+
+        return back()->with('success', 'Bike added successfully!');
     }
 
-    public function update(Request $request, Brand $brand)
+    public function update(Request $request, Bike $bike)
     {
-        $request->validate(['brand_name' => 'required']);
-        $brand->update($request->all());
-        return back()->with('success', 'Brand updated');
+        $request->validate([
+            'brand_id' => 'required|exists:brands,id',
+            'bike_name' => 'required|string|max:255'
+        ]);
+
+        $bike->update($request->only('brand_id', 'bike_name'));
+
+        return back()->with('success', 'Bike updated successfully!');
     }
 
-    public function destroy(Brand $brand)
+    public function destroy(Bike $bike)
     {
-        $brand->delete();
-        return back()->with('success', 'Brand deleted');
+        $bike->delete();
+
+        return back()->with('success', 'Bike deleted successfully!');
     }
 }
-
