@@ -2,59 +2,66 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Models\Brand;
+use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
     public function index()
     {
-        $students = Student::latest()->get();
+        // Load all students (customers)
+        $students = Student::all();
+
+        // Load all brands WITH bike count (bikes_count)
         $brands = Brand::withCount('bikes')->get();
 
-        return view('dashboard', compact('students', 'brands'));
+        // Count rented bikes (customers = rented bikes)
+        $totalRented = Student::count();
+
+        // SAFE: sum bikes_count from the loaded collection (not database column)
+        $totalBikes = $brands->sum('bikes_count');
+
+        // Available bikes = total bikes - rented bikes
+        $availableBikes = $totalBikes - $totalRented;
+
+        // Static placeholder for now
+        $customerSatisfaction = 100;
+
+        return view('dashboard', compact(
+            'students',
+            'brands',
+            'totalRented',
+            'availableBikes',
+            'customerSatisfaction'
+        ));
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'select_bike' => 'required|string|max:255',
-            'phone' => 'required|string|max:20',
+        $request->validate([
+            'name' => 'required|string',
+            'location' => 'required|string',
+            'select_bike' => 'required|string',
+            'phone' => 'required|string'
         ]);
 
-        Student::create($validated);
+        Student::create($request->all());
 
-        return redirect()
-            ->back()
-            ->with('success', 'Successfully added new customer!');
+        return back()->with('success', 'Successfully added new customer!');
     }
 
-   public function update(Request $request, Student $student)
-{
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'location' => 'required|string|max:255',
-        'select_bike' => 'required|string|max:255',
-        'phone' => 'required|string|max:20',
-    ]);
+    public function update(Request $request, Student $student)
+    {
+        $student->update($request->all());
 
-    $student->update($validated);
-
-    return redirect()
-        ->back()
-        ->with('success', 'Customer updated successfully!');
-}
-
+        return back()->with('success', 'Customer updated.');
+    }
 
     public function destroy(Student $student)
     {
         $student->delete();
 
-        return redirect()
-            ->back()
-            ->with('success', 'Customer deleted successfully!');
+        return back()->with('success', 'Customer deleted.');
     }
 }

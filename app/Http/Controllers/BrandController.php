@@ -10,45 +10,35 @@ class BrandController extends Controller
     public function index()
     {
         $brands = Brand::withCount('bikes')->get();
-          $brands->each(function($brand) {
-            $brand->bike_count = 5;
-        });
         return view('brands.index', compact('brands'));
-
-        $brands->each(function($brand) {
-            $brand->bike_count = 5;
-        });
     }
 
     public function store(Request $request)
-    {   
+    {
         $request->validate([
-            'brand_name' => 'required'
+            'brand_name' => 'required|string|max:255'
         ]);
 
-        Brand::create([
-            'brand_name' => $request->brand_name
-        ]);
+        Brand::create($request->only('brand_name'));
 
-        return back()->with('success', 'Brand added');
+        return back()->with('success', 'Brand added successfully!');
     }
 
     public function update(Request $request, Brand $brand)
     {
         $request->validate([
-            'brand_name' => 'required'
+            'brand_name' => 'required|string|max:255'
         ]);
 
-        $brand->update([
-            'brand_name' => $request->brand_name
-        ]);
+        $brand->update($request->only('brand_name'));
 
-        return back()->with('success', 'Brand updated successfully.');
+        return back()->with('success', 'Brand updated successfully!');
     }
 
     public function destroy(Brand $brand)
     {
         $brand->delete();
-        return back()->with('success', 'Brand deleted');
+
+        return back()->with('success', 'Brand deleted.');
     }
 }

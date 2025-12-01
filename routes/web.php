@@ -11,21 +11,22 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
 
-    // Dashboard (Customer List)
+    // Dashboard
     Route::get('/dashboard', [StudentController::class, 'index'])->name('dashboard');
 
-    // Student Routes (Add, Update, Delete)
+    // --- Students (Customers) ---
     Route::post('/students', [StudentController::class, 'store'])->name('students.store');
     Route::put('/students/{student}', [StudentController::class, 'update'])->name('students.update');
     Route::delete('/students/{student}', [StudentController::class, 'destroy'])->name('students.destroy');
 
-    // Bikes
+    // --- Bikes ---
     Route::get('/bikes', [BikeController::class, 'index'])->name('bikes.index');
-    Route::post('/bikes', [BikeController::class, 'store']);
-    Route::put('/bikes/{bike}', [BikeController::class, 'update']);
-    Route::delete('/bikes/{bike}', [BikeController::class, 'destroy']);
+    Route::post('/bikes', [BikeController::class, 'store'])->name('bikes.store');
+    Route::put('/bikes/{bike}', [BikeController::class, 'update'])->name('bikes.update');
+    Route::delete('/bikes/{bike}', [BikeController::class, 'destroy'])->name('bikes.destroy');
 
-    // Brands
+    // --- Brands ---
+    // Load bike count automatically for brand pages
     Route::get('/brands', [BrandController::class, 'index'])->name('brands.index');
     Route::post('/brands', [BrandController::class, 'store'])->name('brands.store');
     Route::put('/brands/{brand}', [BrandController::class, 'update'])->name('brands.update');

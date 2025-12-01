@@ -11,6 +11,7 @@ class Brand extends Model
 
     protected $fillable = ['brand_name'];
 
+    // A brand has many bikes
     public function bikes()
     {
         return $this->hasMany(Bike::class);
