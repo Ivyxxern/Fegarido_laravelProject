@@ -10,40 +10,25 @@ class StudentController extends Controller
 {
     public function index()
     {
-        // Load all students
         $students = Student::all();
-
-        // Load all brands WITH bikes count
         $brands = Brand::withCount('bikes')->get();
 
-        // Total rented bikes = number of students
-        $totalRented = $students->count();
-
-        // Total bikes = sum of bikes_count from brands
-        $totalBikes = $brands->sum('bikes_count');
-
-        // Available bikes = total bikes - rented bikes
-        $availableBikes = max($totalBikes - $totalRented, 0);
-
-        // Customer satisfaction placeholder
-        $customerSatisfaction = 100;
-
-        return view('dashboard', compact(
-            'students',
-            'brands',
-            'totalRented',
-            'availableBikes',
-            'customerSatisfaction'
-        ));
+        return view('dashboard', [
+            'students' => $students,
+            'brands' => $brands,
+            'totalRented' => $students->count(),
+            'availableBikes' => max($brands->sum('bikes_count') - $students->count(), 0),
+            'customerSatisfaction' => 100
+        ]);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
-            'location' => 'required|string',
-            'select_bike' => 'required|string',
-            'phone' => 'required|string'
+            'name' => 'required',
+            'location' => 'required',
+            'select_bike' => 'required',
+            'phone' => 'required'
         ]);
 
         Student::create($request->all());
@@ -53,6 +38,13 @@ class StudentController extends Controller
 
     public function update(Request $request, Student $student)
     {
+        $request->validate([
+            'name' => 'required',
+            'location' => 'required',
+            'select_bike' => 'required',
+            'phone' => 'required'
+        ]);
+
         $student->update($request->all());
 
         return back()->with('success', 'Customer updated.');

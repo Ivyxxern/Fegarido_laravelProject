@@ -3,6 +3,7 @@
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\BikeController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Home page
@@ -10,10 +11,17 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+// FIX: Logout route so sidebar no longer breaks
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/');
+})->name('logout');
+
+
 // Auth-protected routes
 Route::middleware('auth')->group(function () {
 
-    // --- Dashboard ---
+    // Dashboard
     Route::get('/dashboard', [StudentController::class, 'index'])->name('dashboard');
 
     // --- Students (Customers) ---
@@ -33,8 +41,4 @@ Route::middleware('auth')->group(function () {
     Route::put('/brands/{brand}', [BrandController::class, 'update'])->name('brands.update');
     Route::delete('/brands/{brand}', [BrandController::class, 'destroy'])->name('brands.destroy');
 
-    // --- TEMP: Seed existing brands with 5 bikes (REMOVE AFTER USE) ---
-    Route::get('/seed-bikes', [BrandController::class, 'seedBikes']);
 });
-
-require __DIR__.'/auth.php';
