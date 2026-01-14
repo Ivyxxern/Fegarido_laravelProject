@@ -9,11 +9,18 @@ class Bike extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['brand_id', 'bike_name', 'is_rented'];
+    protected $fillable = [
+        'brand_id',
+        'bike_name',
+        'customer_name',
+        'phone',
+        'address',
+        'is_rented',
+    ];
 
-    // Every bike belongs to a brand
     public function brand()
     {
         return $this->belongsTo(Brand::class);
     }
 }
+

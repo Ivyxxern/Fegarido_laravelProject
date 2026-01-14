@@ -9,17 +9,17 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+   public function up()
 {
-    Schema::table('brands', function (Blueprint $table) {
-        $table->dropColumn('name');
+    Schema::table('bikes', function (Blueprint $table) {
+        $table->boolean('is_rented')->default(false)->after('bike_name');
     });
 }
 
 public function down()
 {
-    Schema::table('brands', function (Blueprint $table) {
-        $table->string('name')->nullable();
+    Schema::table('bikes', function (Blueprint $table) {
+        $table->dropColumn('is_rented');
     });
 }
 

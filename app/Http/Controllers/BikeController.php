@@ -3,46 +3,57 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bike;
-use App\Models\Brand;
 use Illuminate\Http\Request;
 
 class BikeController extends Controller
 {
     public function index()
     {
-        $bikes = Bike::with('brand')->get();
-        $brands = Brand::all();
-        return view('bikes.index', compact('bikes', 'brands'));
+        $bikes = Bike::all();
+
+        return view('dashboard', [
+            'bikes' => $bikes,
+            'customers' => $bikes->whereNotNull('customer_name'),
+        ]);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'brand_id' => 'required|exists:brands,id',
-            'bike_name' => 'required|string|max:255'
+            'customer_name' => 'required',
+            'bike_name' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
         ]);
 
-        Bike::create($request->only('brand_id', 'bike_name'));
+        Bike::create([
+            'bike_name' => $request->bike_name,
+            'customer_name' => $request->customer_name,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'is_rented' => true,
+        ]);
 
-        return back()->with('success', 'Bike added successfully!');
+        return redirect()->back()->with('success', 'Customer added successfully!');
     }
 
     public function update(Request $request, Bike $bike)
     {
-        $request->validate([
-            'brand_id' => 'required|exists:brands,id',
-            'bike_name' => 'required|string|max:255'
-        ]);
+        $bike->update($request->only([
+            'bike_name',
+            'customer_name',
+            'phone',
+            'address',
+            'is_rented',
+        ]));
 
-        $bike->update($request->only('brand_id', 'bike_name'));
-
-        return back()->with('success', 'Bike updated successfully!');
+        return redirect()->back()->with('success', 'Updated successfully!');
     }
 
     public function destroy(Bike $bike)
     {
         $bike->delete();
 
-        return back()->with('success', 'Bike deleted successfully!');
+        return redirect()->back()->with('success', 'Deleted successfully!');
     }
 }

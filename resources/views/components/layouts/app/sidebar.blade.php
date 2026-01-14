@@ -22,13 +22,16 @@
                     {{ __('Dashboard') }}
                 </flux:navlist.item>
 
-        
+                {{-- Removed Brands route to prevent error --}}
+                {{-- If you want to enable it later, uncomment and create the route --}}
+                {{--
                 <flux:navlist.item icon="tag"
                     :href="route('brands.index')"
                     :current="request()->routeIs('brands.index')"
                     wire:navigate>
                     {{ __('Brands') }}
                 </flux:navlist.item>
+                --}}
             </flux:navlist.group>
 
             <flux:menu.separator />
@@ -48,4 +51,3 @@
     @fluxScripts
 </body>
 </html>
-
