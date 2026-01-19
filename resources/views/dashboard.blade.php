@@ -95,7 +95,7 @@
             </div>
         </div>
 
-        <form method="POST" action="{{ route('bikes.store') }}" class="grid gap-4 md:grid-cols-2">
+        <form method="POST" action="{{ route('bikes.store') }}" enctype="multipart/form-data" class="grid gap-4 md:grid-cols-2">
             @csrf
             <div>
                 <label class="block text-sm font-medium text-neutral-300 mb-2">
@@ -140,6 +140,13 @@
                     @endforeach
                 </select>
             </div>
+            <div>
+                <label class="block text-sm font-medium text-neutral-300 mb-2">
+                    Photo <span class="text-xs text-neutral-500">(JPG/PNG, max 2MB)</span>
+                </label>
+                <input type="file" name="photo" accept="image/jpeg,image/jpg,image/png"
+                    class="w-full rounded-lg border border-neutral-600 bg-neutral-900/50 px-4 py-2.5 text-sm text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 transition-all duration-200 focus:border-blue-500 focus:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
+            </div>
             <div class="md:col-span-2 flex justify-end">
                 <button type="submit" class="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-2.5 text-sm font-medium text-white shadow-lg transition-all duration-200 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl hover:scale-105">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -151,24 +158,84 @@
         </form>
     </div>
 
-    {{-- Bikes Table --}}
+    {{-- Search, Filter & Export Section --}}
     <div class="rounded-xl border border-neutral-700/50 bg-gradient-to-br from-neutral-800 to-neutral-900 p-6 shadow-lg">
-        <div class="mb-6 flex items-center gap-3">
-            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-600">
-                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
-                </svg>
+        <div class="mb-6 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-600">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-lg font-semibold text-white">Bikes List</h2>
+                    <p class="text-xs text-neutral-400">Manage all your bikes</p>
+                </div>
             </div>
-            <div>
-                <h2 class="text-lg font-semibold text-white">Bikes List</h2>
-                <p class="text-xs text-neutral-400">Manage all your bikes</p>
+            <div class="flex flex-col items-end gap-1">
+                <a href="{{ route('bikes.export-pdf', request()->all()) }}" 
+                   onclick="showDownloadInfo(event)"
+                   class="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-red-600 to-red-700 px-4 py-2 text-sm font-medium text-white shadow-lg transition-all duration-200 hover:from-red-700 hover:to-red-800 hover:shadow-xl hover:scale-105">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    Export to PDF
+                </a>
+                <p class="text-xs text-neutral-500">Downloads to your browser's Downloads folder</p>
             </div>
         </div>
+        
+        {{-- Search and Filter Form --}}
+        <form method="GET" action="{{ route('dashboard') }}" class="grid gap-4 md:grid-cols-4 mb-6">
+            <div>
+                <label class="block text-sm font-medium text-neutral-300 mb-2">
+                    Search
+                </label>
+                <input type="text" name="search" value="{{ $searchValue }}"
+                    class="w-full rounded-lg border border-neutral-600 bg-neutral-900/50 px-4 py-2.5 text-sm text-white placeholder-neutral-500 transition-all duration-200 focus:border-blue-500 focus:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                    placeholder="Search by name or model">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-neutral-300 mb-2">
+                    Filter by Category
+                </label>
+                <select name="category"
+                    class="w-full rounded-lg border border-neutral-600 bg-neutral-900/50 px-4 py-2.5 text-sm text-white transition-all duration-200 focus:border-blue-500 focus:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
+                    <option value="">All Categories</option>
+                    @foreach($bikeCategories as $category)
+                        <option value="{{ $category->id }}" {{ $categoryFilter == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="flex items-end gap-2">
+                <button type="submit" class="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-4 py-2.5 text-sm font-medium text-white shadow-lg transition-all duration-200 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    Apply
+                </button>
+                @if($searchValue || $categoryFilter)
+                <a href="{{ route('dashboard') }}" class="inline-flex items-center justify-center gap-2 rounded-lg border border-neutral-600 bg-neutral-800 px-4 py-2.5 text-sm font-medium text-neutral-300 transition-all duration-200 hover:bg-neutral-700 hover:text-white">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                    Clear
+                </a>
+                @endif
+            </div>
+        </form>
+    </div>
+
+    {{-- Bikes Table --}}
+    <div class="rounded-xl border border-neutral-700/50 bg-gradient-to-br from-neutral-800 to-neutral-900 p-6 shadow-lg">
         <div class="overflow-x-auto">
             <table class="w-full">
                 <thead>
                     <tr class="border-b border-neutral-700">
                         <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-neutral-400">#</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-neutral-400">Photo</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-neutral-400">Bike Name</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-neutral-400">Model</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-neutral-400">Price/Day</th>
@@ -181,6 +248,17 @@
                     @forelse($bikes as $bike)
                     <tr class="transition-colors duration-150 hover:bg-neutral-800/50">
                         <td class="whitespace-nowrap px-4 py-4 text-sm font-medium text-neutral-300">{{ $loop->iteration }}</td>
+                        <td class="whitespace-nowrap px-4 py-4">
+                            @if($bike->photo)
+                                <div class="h-10 w-10 rounded-full overflow-hidden border-2 border-neutral-600">
+                                    <img src="{{ url('/storage/' . $bike->photo) }}" alt="{{ $bike->bike_name }}" class="h-full w-full object-cover" onerror="this.parentElement.innerHTML='<div class=\'flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-white text-xs font-semibold border-2 border-neutral-600\'>{{ $bike->initials() }}</div>'">
+                                </div>
+                            @else
+                                <div class="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-white text-xs font-semibold border-2 border-neutral-600">
+                                    {{ $bike->initials() }}
+                                </div>
+                            @endif
+                        </td>
                         <td class="whitespace-nowrap px-4 py-4 text-sm font-medium text-white">{{ $bike->bike_name }}</td>
                         <td class="whitespace-nowrap px-4 py-4 text-sm text-neutral-300">{{ $bike->model ?? 'N/A' }}</td>
                         <td class="whitespace-nowrap px-4 py-4 text-sm font-semibold text-blue-400">${{ number_format($bike->price_per_day, 2) }}</td>
@@ -221,7 +299,7 @@
                                     Edit
                                 </button>
                                 <form method="POST" action="{{ route('bikes.destroy', $bike) }}"
-                                      onsubmit="return confirm('Are you sure you want to delete this bike?')" class="inline">
+                                      onsubmit="return confirm('Are you sure you want to move this bike to trash?')" class="inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="inline-flex items-center gap-1 rounded-lg bg-red-500/20 px-3 py-1.5 text-xs font-medium text-red-400 border border-red-500/30 transition-all duration-200 hover:bg-red-500/30 hover:scale-105">
@@ -236,7 +314,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="px-4 py-12 text-center">
+                        <td colspan="8" class="px-4 py-12 text-center">
                             <div class="flex flex-col items-center gap-3">
                                 <div class="flex h-12 w-12 items-center justify-center rounded-full bg-neutral-700/50">
                                     <svg class="w-6 h-6 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -277,9 +355,26 @@
                 </svg>
             </button>
         </div>
-        <form method="POST" action="{{ route('bikes.update', $bike) }}" class="grid gap-4">
+        <form method="POST" action="{{ route('bikes.update', $bike) }}" enctype="multipart/form-data" class="grid gap-4">
             @csrf
             @method('PUT')
+            <div class="col-span-2">
+                <label class="block text-sm font-medium text-neutral-300 mb-2">Current Photo</label>
+                @if($bike->photo)
+                    <div class="mb-2">
+                        <img src="{{ url('/storage/' . $bike->photo) }}" alt="{{ $bike->bike_name }}" class="h-20 w-20 rounded-full object-cover border-2 border-neutral-600" onerror="this.parentElement.innerHTML='<div class=\'mb-2 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-white text-lg font-semibold border-2 border-neutral-600\'>{{ $bike->initials() }}</div>'">
+                    </div>
+                @else
+                    <div class="mb-2 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-white text-lg font-semibold border-2 border-neutral-600">
+                        {{ $bike->initials() }}
+                    </div>
+                @endif
+                <label class="block text-sm font-medium text-neutral-300 mb-2">
+                    Update Photo <span class="text-xs text-neutral-500">(JPG/PNG, max 2MB)</span>
+                </label>
+                <input type="file" name="photo" accept="image/jpeg,image/jpg,image/png"
+                    class="w-full rounded-lg border border-neutral-600 bg-neutral-900/50 px-4 py-2.5 text-sm text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 transition-all duration-200 focus:border-blue-500 focus:bg-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
+            </div>
             <div>
                 <label class="block text-sm font-medium text-neutral-300 mb-2">
                     Bike Name <span class="text-red-400">*</span>
@@ -368,6 +463,27 @@ document.addEventListener('click', function(event) {
         });
     }
 });
+
+// Show download information
+function showDownloadInfo(event) {
+    // Let the download proceed normally
+    // The browser will download to default Downloads folder
+    // Show a brief notification
+    setTimeout(() => {
+        const message = document.createElement('div');
+        message.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center gap-2';
+        message.innerHTML = `
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span>PDF downloading to your Downloads folder</span>
+        `;
+        document.body.appendChild(message);
+        setTimeout(() => {
+            message.remove();
+        }, 3000);
+    }, 500);
+}
 </script>
 
 <style>

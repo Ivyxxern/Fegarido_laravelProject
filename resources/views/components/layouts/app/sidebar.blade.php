@@ -28,6 +28,13 @@
                     wire:navigate>
                     {{ __('Bike Categories') }}
                 </flux:navlist.item>
+
+                <flux:navlist.item icon="trash"
+                    :href="route('trash')"
+                    :current="request()->routeIs('trash')"
+                    wire:navigate>
+                    {{ __('Trash') }}
+                </flux:navlist.item>
             </flux:navlist.group>
         </flux:navlist>
 
