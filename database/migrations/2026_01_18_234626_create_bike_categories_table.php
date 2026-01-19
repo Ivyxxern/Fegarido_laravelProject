@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bikes', function (Blueprint $table) {
+        Schema::create('bike_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('bike_name');
-            $table->string('model')->nullable();
-            $table->decimal('price_per_day', 10, 2)->default(0);
-            $table->string('status')->default('available');
-
+            $table->string('name')->unique();
             $table->timestamps();
         });
     }
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bikes');
+        Schema::dropIfExists('bike_categories');
     }
 };

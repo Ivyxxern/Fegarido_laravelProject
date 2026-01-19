@@ -22,28 +22,38 @@
                     {{ __('Dashboard') }}
                 </flux:navlist.item>
 
-                {{-- Removed Brands route to prevent error --}}
-                {{-- If you want to enable it later, uncomment and create the route --}}
-                {{--
                 <flux:navlist.item icon="tag"
-                    :href="route('brands.index')"
-                    :current="request()->routeIs('brands.index')"
+                    :href="route('bike-categories.index')"
+                    :current="request()->routeIs('bike-categories.*')"
                     wire:navigate>
-                    {{ __('Brands') }}
+                    {{ __('Bike Categories') }}
                 </flux:navlist.item>
-                --}}
             </flux:navlist.group>
+        </flux:navlist>
 
-            <flux:menu.separator />
-
+        {{-- User Profile Section --}}
+        <div class="mt-auto border-t border-zinc-200 dark:border-zinc-700 p-4">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white text-xs font-semibold">
+                    {{ auth()->user()->initials() }}
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-zinc-900 dark:text-zinc-100 truncate">
+                        {{ auth()->user()->name }}
+                    </p>
+                    <p class="text-xs text-zinc-500 dark:text-zinc-400 truncate">
+                        {{ auth()->user()->email }}
+                    </p>
+                </div>
+            </div>
             <form method="POST" action="{{ route('logout') }}" class="w-full">
                 @csrf
                 <button type="submit"
-                    class="w-full flex items-center px-4 py-2 text-left text-sm text-red-500 hover:bg-red-100 dark:hover:bg-red-900/30">
-                    <span class="flex-1">Logout</span>
+                    class="w-full flex items-center justify-center px-4 py-2 text-sm text-red-500 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-md">
+                    Logout
                 </button>
             </form>
-        </flux:navlist>
+        </div>
     </flux:sidebar>
 
     {{ $slot }}
